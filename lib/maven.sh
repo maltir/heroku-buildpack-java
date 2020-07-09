@@ -118,8 +118,7 @@ run_mvn() {
   local mvnOpts="$(_mvn_cmd_opts ${scope})"
   local mvnClean="$(_mvn_cmd_clean ${scope})"
   status "Executing Maven"
-  echo "$ ${mavenExe} ${mvnClean}" | indent
-  echo "$ ${mavenExe} ${mvnOpts}" | indent
+  echo "$ ${mavenExe} ${mvnClean} && ${mavenExe} ${mvnOpts}" | indent
 
   local cache_status="$(get_cache_status ${mavenInstallDir})"
   let start=$(nowms)
