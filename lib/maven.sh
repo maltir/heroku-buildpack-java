@@ -28,6 +28,19 @@ _mvn_cmd_opts() {
   fi
 }
 
+_mvn_cmd_clean() {
+  local scope=${1}
+
+  if [ "$scope" = "compile" ]; then
+    echo -n "${MAVEN_CUSTOM_OPTS:-""}"
+    echo -n " ${MAVEN_CUSTOM_GOALS:-"clean"}"
+  elif [ "$scope" = "test-compile" ]; then
+    echo -n "${MAVEN_CUSTOM_GOALS:-"clean"}"
+  else
+    echo -n ""
+  fi
+}
+
 _mvn_settings_opt() {
   local home="${1}"
   local mavenInstallDir="${2}"
@@ -103,7 +116,9 @@ run_mvn() {
 
   cd $home
   local mvnOpts="$(_mvn_cmd_opts ${scope})"
+  local mvnClean="$(_mvn_cmd_clean ${scope})"
   status "Executing Maven"
+  echo "$ ${mavenExe} ${mvnClean}" | indent
   echo "$ ${mavenExe} ${mvnOpts}" | indent
 
   local cache_status="$(get_cache_status ${mavenInstallDir})"
