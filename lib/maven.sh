@@ -25,6 +25,7 @@ _mvn_cmd_opts() {
     echo -n "${MAVEN_CUSTOM_OPTS:-""}"
     echo -n " ${MAVEN_CUSTOM_GOALS:-"clean"}"
   elif [ "$scope" = "test-compile" ]; then
+    echo -n "${MAVEN_CUSTOM_OPTS:-"-s ci_settings.xml"}"
     echo -n "${MAVEN_CUSTOM_GOALS:-"clean dependency:resolve-plugins test-compile"}"
   else
     echo -n ""
